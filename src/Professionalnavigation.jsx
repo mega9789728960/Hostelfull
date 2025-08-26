@@ -12,10 +12,12 @@ function Professionalnavigation({ isLight, onToggleTheme, onOpenLogin, onOpenReg
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const toggleMobileMenu = () => setMobileOpen((v) => !v);
+  
 
   return (
     <>
-      <nav className="glass-effect sticky top-0 z-50">
+      <nav className="glass-effect sticky top-0 z-50 ">
+  
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-18">
             {/* Left: Logo + Title */}
@@ -26,8 +28,8 @@ function Professionalnavigation({ isLight, onToggleTheme, onOpenLogin, onOpenReg
                 </div>
               </div>
               <div className="text-white">
-                <h1 className="text-xl font-bold">Chozha Boys Hostel</h1>
-                <p className="text-xs text-slate-300">
+                <h1 className="text-xl font-bold control1">Chozha Boys Hostel</h1>
+                <p className="text-xs text-slate-300 control2">
                   Government College of Engineering, Thanjavur
                 </p>
               </div>
@@ -117,49 +119,7 @@ function Professionalnavigation({ isLight, onToggleTheme, onOpenLogin, onOpenReg
               </div>
 
               {/* Mobile: Portal quick button */}
-              <button
-                onClick={() => onOpenLogin?.()}
-                className="btn-primary text-white px-4 py-2.5 rounded-lg font-semibold text-sm md:hidden"
-              >
-                Portal
-              </button>
-
-              {/* Mobile: Hamburger */}
-              <button
-                onClick={toggleMobileMenu}
-                className="text-white hover:text-slate-300 transition-colors md:hidden"
-                aria-label="Toggle menu"
-              >
-                {!mobileOpen ? (
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M4 6h16M4 12h16M4 18h16"
-                    />
-                  </svg>
-                ) : (
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                )}
-              </button>
+              
             </div>
           </div>
         </div>
