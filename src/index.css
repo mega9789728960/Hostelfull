@@ -489,10 +489,23 @@
                 padding-right: 0;
             }
         }
-@media (max-width: 640px) {
+/* 👇 1. For screens up to 382px */
+@media (max-width: 383px) {
+  .control1 , .control2{
+    font-size: 0.6rem;
+  }
+}
+
+/* 👇 2. For screens between 383px and 639px */
+@media (min-width: 383px) and (max-width: 639px) {
   .control1 {
-     
-   font-size: 0.7rem;
-  
+    font-size: 0.9rem; /* or any size you want for mid-range screens */
+  }
+}
+
+/* 👇 3. For screens 640px and above */
+@media (min-width: 640px) {
+  .control1 {
+    font-size: 2rem;
   }
 }
