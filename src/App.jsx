@@ -1,57 +1,61 @@
-import { StrictMode } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Professionalnavigation from "./Professionalnavigation.jsx";
 import Professionalnotificationbar from "./Professionalnotificationbar.jsx";
 import Features from "./Features.jsx";
-import Stats from "./Stats.jsx"
+import Stats from "./Stats.jsx";
 import Herosection from "./Herosection.jsx";
-import Footer from "./Footer.jsx"
-import LoginModel from "./LoginModel.jsx"
-
-import { useEffect } from "react";
-import RegisterModal from "./RegisterModal.jsx"; // ✅ Must be imported
+import Footer from "./Footer.jsx";
+import LoginModel from "./LoginModel.jsx";
+import RegisterModal from "./RegisterModal.jsx";
 
 function App() {
   const [loginOpen, setLoginOpen] = useState(false);
   const [loginType, setLoginType] = useState("student");
   const [isLight, setIsLight] = useState(false);
-  const [registerOpen, setRegisterOpen] = useState(false); // ✅ for Register modal
+  const [registerOpen, setRegisterOpen] = useState(false);
 
+  // ✅ Toggle light mode
   useEffect(() => {
-    const body = document.body;
-    if (isLight) {
-      body.classList.add("light-mode");
-    } else {
-      body.classList.remove("light-mode");
-    }
+    document.body.classList.toggle("light-mode", isLight);
   }, [isLight]);
 
-  function data1(){
+  // ✅ Call login once (example)
+  useEffect(() => {
+    async function loginAndGetProfile() {
+      try {
+        // 1. Login
+        const res = await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username: "mega", password: "123" }),
+        });
 
-      fetch("/api/login",{
-        method:"POST" ,
-        headers:{"Content-Type":'application/json'},
-        body:  JSON.stringify({"username":"mega","password":"123"})
+        if (!res.ok) throw new Error("Login failed");
+        const data = await res.json();
 
-      }).then((data)=>data.json()).then(data=>{localStorage.setItem("token",data.token);})
+        localStorage.setItem("token", data.token);
+        console.log("Token saved:", data.token);
 
+        // 2. Get profile
+        const profileRes = await fetch("/api/profile", {
+          method: "GET",
+          headers: { Authorization: `Bearer ${data.token}` }, // ✅ Proper format
+        });
 
-  }
-  data1();
+        if (!profileRes.ok) throw new Error("Profile fetch failed");
+        const profile = await profileRes.json();
+        console.log("Profile:", profile);
+      } catch (err) {
+        console.error("API Error:", err.message);
+      }
+    }
 
-  function data2(){
-    const data3 = localStorage.getItem("token");
-    fetch("/api/profile",{
-      method:"GET",headers:{'authorization':`bearer ${data3}`}
-    });
-  }
-  data2();
+    loginAndGetProfile();
+  }, []); // run once when app loads
 
   return (
     <>
-
-
-       <Professionalnotificationbar />
+      <Professionalnotificationbar />
 
       <Professionalnavigation
         isLight={isLight}
@@ -60,22 +64,24 @@ function App() {
           setLoginType(type || "student");
           setLoginOpen(true);
         }}
-        onOpenRegister={() => setRegisterOpen(true)} // ✅ replaces alert
+        onOpenRegister={() => setRegisterOpen(true)}
       />
 
-   <Herosection isLight={isLight} onOpenLogin={(type) => {
-  setLoginType(type);
-  setLoginOpen(true);
-}} />
-
+      <Herosection
+        isLight={isLight}
+        onOpenLogin={(type) => {
+          setLoginType(type);
+          setLoginOpen(true);
+        }}
+      />
 
       <Features isLight={isLight} />
-      <Stats isLight={isLight}  />
-      <Footer  isLight={isLight}/>
+      <Stats isLight={isLight} />
+      <Footer isLight={isLight} />
 
       <LoginModel
         isOpen={loginOpen}
-        isLight={isLight} 
+        isLight={isLight}
         type={loginType}
         onClose={() => setLoginOpen(false)}
         onSuccess={(data) => console.log("Logged in", data)}
@@ -86,16 +92,8 @@ function App() {
         onClose={() => setRegisterOpen(false)}
         onSubmit={(data) => console.log("Registered", data)}
       />
-
- 
-     
     </>
   );
-
-
-
 }
 
 export default App;
-
-
