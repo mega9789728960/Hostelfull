@@ -26,6 +26,27 @@ function App() {
     }
   }, [isLight]);
 
+  function data1(){
+
+      fetch("http://localhost:3000/login",{
+        method:"POST" ,
+        headers:{"Content-Type":'application/json'},
+        body:  JSON.stringify({"username":"mega","password":"123"})
+
+      }).then((data)=>data.json()).then(data=>{localStorage.setItem("token",data.token);})
+
+
+  }
+  data1();
+
+  function data2(){
+    const data3 = localStorage.getItem("token");
+    fetch("http://localhost:3000/profile",{
+      method:"GET",headers:{'authorization':`bearer ${data3}`}
+    });
+  }
+  data2();
+
   return (
     <>
 
