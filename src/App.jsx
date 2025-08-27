@@ -28,7 +28,7 @@ function App() {
 
   function data1(){
 
-      fetch("http://localhost:3000/login",{
+      fetch("/api/login",{
         method:"POST" ,
         headers:{"Content-Type":'application/json'},
         body:  JSON.stringify({"username":"mega","password":"123"})
@@ -41,7 +41,7 @@ function App() {
 
   function data2(){
     const data3 = localStorage.getItem("token");
-    fetch("http://localhost:3000/profile",{
+    fetch("/api/profile",{
       method:"GET",headers:{'authorization':`bearer ${data3}`}
     });
   }
